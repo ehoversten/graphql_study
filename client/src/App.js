@@ -9,7 +9,8 @@ import Footer from './components/Footer';
 import Home from './pages/Home';
 
 const client = new ApolloClient({
-  uri: 'http://localhost:3001/graphql'
+  // uri: 'http://localhost:3001/graphql'
+  uri: '/graphql'
 });
 
 function App() {
