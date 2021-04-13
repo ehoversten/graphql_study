@@ -5,13 +5,16 @@ import { QUERY_USER, QUERY_ME } from '../utils/queries';
 import ThoughtForm from '../components/ThoughtForm';
 import ThoughtList from '../components/ThoughtList';
 import FriendList from '../components/FriendList';
+// import { useParams } from 'react-router-dom';
 import { Redirect, useParams } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 
 const Profile = () => {
-  const [addFriend] = useMutation(ADD_FRIEND);
+  const [addFriend, { error }] = useMutation(ADD_FRIEND);
   
   const { username: userParam } = useParams();
+  console.log(`User Params: ${userParam}`);
+  
   const { loading, data } = useQuery(userParam ? QUERY_USER : QUERY_ME, {
     variables: { username: userParam }
   });
@@ -22,10 +25,10 @@ const Profile = () => {
   console.log(user);
   console.log(`Logged In: ${Auth.loggedIn()}`);
 
-  // redirect to personal profile page if username is the logged-in user's
-  if (Auth.loggedIn() && Auth.getProfile().data.username.toLowerCase() === userParam.toLowerCase()) {
-    return <Redirect to="/profile" />;
-  }
+  // redirect to personal profile page if username is the logged-in user's (Not WORKING --> ???)
+  // if (Auth.loggedIn() && Auth.getProfile().data.username.toLowerCase() === userParam.toLowerCase()) {
+  //   return <Redirect to="/profile" />;
+  // }
 
   if (loading) {
     return <div>Loading...</div>;
@@ -54,6 +57,7 @@ const Profile = () => {
       <div className="flex-row mb-3">
         <h2 className="bg-dark text-secondary p-3 display-inline-block">
           Viewing {userParam ? `${user.username}'s` : 'your'} profile.
+          {/* Viewing {user.username} profile. */}
         </h2>
 
         {userParam && (
